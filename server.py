@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # https://github.com/teknogods/eaEmu/blob/master/eaEmu/gamespy/webServices.py
 
+import time
 import sys
 import logging
 import warnings
@@ -272,6 +273,15 @@ class WebServer(Site):
         Site.__init__(self, root)
 
 if __name__ == "__main__":
+    print("RePackaged for Win10/11 by YoniXw @ 09/2025")
+    print("Rising Eagle: Futuristic Infantry Warfare, v1.3.1")
+    print("------------------------")
+    print("Thanks to https://github.com/Zenchreal/rising-eagle-soap")
+    print("------------------------")
+    print("")
+
+    time.sleep(6)
+
     logging.basicConfig(format='[%(levelname)s] %(message)s', level=logging.DEBUG)
     log.startLogging(sys.stdout)
 

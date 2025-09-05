@@ -1,3 +1,7 @@
+# Links
+* https://github.com/Zenchreal/rising-eagle-soap
+* https://github.com/yonixw/REExtraUtils
+
 # rising-eagle-soap
 Attempt to reimplement the GameSpy SOAP-based protocol for Rising Eagle, or at least enough of it so that the game launches. Currently unfinished and very hacky.
 

@@ -1,4 +1,7 @@
-REM Change this file paths ("E:\....")
+
+REM expects to work with: "C:\Python27\python.exe"
+
+REM Change  paths ("E:\....") in this files:
 "my_python27_env\Scripts\activate.bat"
 
 REM python server.py

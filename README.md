@@ -1,5 +1,9 @@
 # Rising Eagle PC (2008) - GameSpy Fake/Mock HTTP SOAP server
-Download: [Release Page](https://github.com/yonixw/Zenchreal_rising-eagle-master/releases)
+Download: [Release Page](https://github.com/yonixw/Zenchreal_rising-eagle-soap/releases)
+
+# Forked from:
+https://github.com/Zenchreal/rising-eagle-soap
+
 
 # Links:
 * See in release page (links.txt).

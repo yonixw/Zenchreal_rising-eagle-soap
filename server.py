@@ -150,8 +150,8 @@ def PersonalInfo_Item(i):
         'LastGameDate': FieldValue('DateAndTimeValue', (2018, 1, i, 0, 0, 0, 0, 0, 0)),
         
 
-        'ViewMyProfile': FieldValue('IntValue', 0),
-        'ViewMyEmail': FieldValue('IntValue', 0),
+        'ViewMyProfile': FieldValue('IntValue', 1),
+        'ViewMyEmail': FieldValue('IntValue', 1),
         
         # Why not int? from ReverseEng?
         'CampaignsCompleted': FieldValue('ByteValue', 0),
@@ -218,6 +218,9 @@ def PlayerStats_v1_Item(i):
 
 storage_tables = {
     # TODO - Some awards not work, type? values? etc..
+        # Also not working:
+            # Top players tab in server browser, even though soap return array of players, FieldType problem?
+            # Inside server, before choosing class, in player list, can't see profile of specifiec player even if allowed..
     # TODO - Create loop for 10 users, and see who calls Update to skills!
         # Tested with 2 clients+official server... and no update call to skill, 
         # only to PersonalInfo.LastGameDate...

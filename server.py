@@ -139,6 +139,9 @@ class FieldValue(object):
             obj.Int64Value.Value = self.value
 
 storage_tables = {
+    # TODO - Some awards not work, type? values? etc..
+    # TODO - Create loop for 10 users, and see who calls Update to skills!
+
     'PersonalInfo': [
         {
             'ownerid': FieldValue('IntValue', 100000001),

@@ -159,6 +159,9 @@ def PersonalInfo_Item(i):
 
 def PlayerStats_v1_Item(i): 
     return  {
+        # most types here I guessed based on value... not based on real deep dive into reverse code
+        # so you probably find fixes missing here
+
         'ownerid': FieldValue('IntValue', 100000000+i),
         'recordid': FieldValue('IntValue', 1),
         'row': FieldValue('IntValue', 0),

@@ -27,9 +27,33 @@ from ZSI.ServiceContainer import WSActionException
 from interfaces import CheckInputArgs, HandlerChainInterface, CallbackChainInterface,\
     DataHandler
 
+import xml.dom.minidom
+import inspect
+
+def utils_dir(obj):
+    properties = []
+    functions = []
+
+    for name, value in inspect.getmembers(obj):
+        # Skip "dunder" attributes for a cleaner list
+        if name.startswith('__'):
+            continue
+
+        if inspect.ismethod(value) or inspect.isfunction(value):
+            functions.append(name)
+        else:
+            properties.append(name)
+
+    print "--- Possible Properties (Attributes) ---"
+    print properties
+    # Output: ['class_attr', 'instance_prop']
+
+    print "\n--- Possible Functions (Methods) ---"
+    print functions
+    # Output: ['instance_method']
+
 
 req_id = 1
-
 class LoggingHandlerChain:
 
     @CheckInputArgs(CallbackChainInterface, HandlerChainInterface)
@@ -45,10 +69,19 @@ class LoggingHandlerChain:
     def processRequest(self, arg, **kw):
         debug = self.debug
         myID = self.myID
-        if debug: log.msg('--->REQUEST (CASE2) [%i]: %s' %(myID,arg), debug=1)
+        #if debug: log.msg('--->REQUEST (CASE2) [%i]: %s' %(myID,arg), debug=1)
         
+        nicexml = "" # Only string BEFORE processors!
+        try:
+            nicexml = xml.dom.minidom.parseString('%s' %arg).toprettyxml(indent="  ", newl="\n")
+        except Exception as e:
+            utils_dir(arg)
+            nicexml = '%s|1|%s' %(str(e),arg)
+
+        if debug: log.msg('--->[%i] REQUEST (CASE2): %s' %(myID,nicexml), debug=1)
+
         for h in self.handlers:
-            if debug: log.msg('REQUEST (CASE2) [%i] handler: %s' %(myID, h), debug=1)
+            if debug: log.msg('[%i] REQUEST (CASE2) handler: %s' %(myID, h), debug=1)
             arg = h.processRequest(arg, **kw)
             
         return self.handlercb.processRequest(arg, **kw)
@@ -56,19 +89,26 @@ class LoggingHandlerChain:
     def processResponse(self, arg, **kw):
         debug = self.debug
         myID = self.myID
-        if debug: log.msg('===>RESPONSE (CASE2) [%i]: %s' %(myID,str(arg)), debug=1)
+        #if debug: log.msg('===>RESPONSE (CASE2) [%i]: %s' %(myID,str(arg)), debug=1)
 
         if arg is None: 
             return
 
         for h in self.handlers:
-            if debug: log.msg('RESPONSE (CASE2) [%i] handler: %s' %(myID, h), debug=1)
+            if debug: log.msg('[%i] RESPONSE (CASE2) handler: %s' %(myID, h), debug=1)
             arg = h.processResponse(arg, **kw)
             
-        s = str(arg)
-        if debug: log.msg(s, debug=1)
+        _xml = str(arg) # Only string AFTER processors!
+        nicexml = _xml
+
+        try:
+            nicexml = xml.dom.minidom.parseString(nicexml).toprettyxml(indent="  ", newl="\n")
+            if debug: log.msg('===>[%i] RESPONSE (CASE2): %s' %(myID,nicexml), debug=1)
+        except Exception as e:
+            utils_dir(arg)
+            if debug: log.msg('===>[%i] RESPONSE/ERR (CASE2): %s' %(myID,e), debug=1)
         
-        return s
+        return _xml
 
 
 # 

@@ -170,7 +170,7 @@ class DefaultClientHandlerChain:
             replytype -- typecode
         """
         if self.debug:
-            log.msg('--->PROCESS REQUEST\n%s' %arg, debug=1)
+            log.msg('--->REQUEST (CASE1)\n%s' %arg, debug=1)
 
         for h in self.handlers:
             arg.addCallback(h.processResponse, **kw)
@@ -183,7 +183,7 @@ class DefaultClientHandlerChain:
             arg -- XML Soap data string
         """
         if self.debug:
-            log.msg('===>PROCESS RESPONSE: %s' %str(arg), debug=1)
+            log.msg('===>RESPONSE (CASE1): %s' %str(arg), debug=1)
 
         if arg is None:
             return

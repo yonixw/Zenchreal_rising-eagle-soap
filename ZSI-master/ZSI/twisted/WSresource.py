@@ -28,6 +28,8 @@ from interfaces import CheckInputArgs, HandlerChainInterface, CallbackChainInter
     DataHandler
 
 
+req_id = 1
+
 class LoggingHandlerChain:
 
     @CheckInputArgs(CallbackChainInterface, HandlerChainInterface)
@@ -35,26 +37,32 @@ class LoggingHandlerChain:
         self.handlercb = cb
         self.handlers = handlers
         self.debug = len(log.theLogPublisher.observers) > 0
-        
+
+        global req_id
+        req_id+=1
+        self.myID = req_id
+
     def processRequest(self, arg, **kw):
         debug = self.debug
-        if debug: log.msg('--->PROCESS REQUEST: %s' %arg, debug=1)
+        myID = self.myID
+        if debug: log.msg('--->REQUEST (CASE2) [%i]: %s' %(myID,arg), debug=1)
         
         for h in self.handlers:
-            if debug: log.msg('\t%s handler: %s' %(arg, h), debug=1)
+            if debug: log.msg('REQUEST (CASE2) [%i] handler: %s' %(myID, h), debug=1)
             arg = h.processRequest(arg, **kw)
             
         return self.handlercb.processRequest(arg, **kw)
             
     def processResponse(self, arg, **kw):
         debug = self.debug
-        if debug: log.msg('===>PROCESS RESPONSE: %s' %str(arg), debug=1)
+        myID = self.myID
+        if debug: log.msg('===>RESPONSE (CASE2) [%i]: %s' %(myID,str(arg)), debug=1)
 
         if arg is None: 
             return
 
         for h in self.handlers:
-            if debug: log.msg('\t%s handler: %s' %(arg, h), debug=1)
+            if debug: log.msg('RESPONSE (CASE2) [%i] handler: %s' %(myID, h), debug=1)
             arg = h.processResponse(arg, **kw)
             
         s = str(arg)
@@ -328,7 +336,7 @@ class DefaultHandlerChain:
         
     def processRequest(self, arg, **kw):
         debug = self.debug
-        if debug: log.msg('--->PROCESS REQUEST: %s' %arg, debug=1)
+        if debug: log.msg('--->REQUEST (CASE3): %s' %arg, debug=1)
         
         for h in self.handlers:
             if debug: log.msg('\t%s handler: %s' %(arg, h), debug=1)
@@ -338,7 +346,7 @@ class DefaultHandlerChain:
             
     def processResponse(self, arg, **kw):
         debug = self.debug
-        if debug: log.msg('===>PROCESS RESPONSE: %s' %str(arg), debug=1)
+        if debug: log.msg('===>RESPONSE (CASE3): %s' %str(arg), debug=1)
 
         if arg is None: 
             return

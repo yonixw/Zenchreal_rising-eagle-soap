@@ -138,85 +138,103 @@ class FieldValue(object):
             obj.Int64Value = obj.new_int64Value()
             obj.Int64Value.Value = self.value
 
+def PersonalInfo_Item(i):
+    return {
+        'ownerid': FieldValue('IntValue', 100000000+i),
+        'recordid': FieldValue('IntValue', 1),
+
+        'NickName': FieldValue('AsciiStringValue', 'mynick ' + str(i)),
+        'EmailAddress': FieldValue('AsciiStringValue', 'todo@todo.com'),
+        
+        'AccountCreationDate': FieldValue('DateAndTimeValue', (2018, 1, i, 0, 0, 0, 0, 0, 0)),
+        'LastGameDate': FieldValue('DateAndTimeValue', (2018, 1, i, 0, 0, 0, 0, 0, 0)),
+        
+
+        'ViewMyProfile': FieldValue('IntValue', 0),
+        'ViewMyEmail': FieldValue('IntValue', 0),
+        
+        # Why not int? from ReverseEng?
+        'CampaignsCompleted': FieldValue('ByteValue', 0),
+    }
+
+def PlayerStats_v1_Item(i): 
+    return  {
+        'ownerid': FieldValue('IntValue', 100000000+i),
+        'recordid': FieldValue('IntValue', 1),
+        'row': FieldValue('IntValue', 0),
+
+        'PlayerUnickName': FieldValue('AsciiStringValue', 'mynick ' + str(i)),
+        'PlayerClanNameTag': FieldValue('AsciiStringValue', '[SOMECLAN] '),
+
+        'HeadShotKills': FieldValue('IntValue', 1),
+        'BodyKills': FieldValue('IntValue', 2),
+        'FriendlyFireKills': FieldValue('IntValue', 5),
+        'SessionsWonAsPLeader': FieldValue('IntValue', 6),
+        'SessionsWonAsSLeader': FieldValue('IntValue', 7),
+        'SuccessfulHacks': FieldValue('IntValue', 8),
+        'TotalTimePlayed': FieldValue('IntValue', 61),
+        'SkillByHacker': FieldValue('IntValue', 10),
+        'SkillBySniper': FieldValue('IntValue', 11),
+        'SkillByABE': FieldValue('IntValue', 14),
+        'HighestLevelHacked': FieldValue('IntValue', 3),
+        'MostKillsInSession': FieldValue('IntValue', 15),
+        'BestSessionScore': FieldValue('IntValue', 17),
+        'MostValuablePlayer': FieldValue('IntValue', 19),
+        'SkillByPlatoonLeader': FieldValue('IntValue', 12),
+
+        'SessionsWon': FieldValue('IntValue', 1),
+        'TotalSessions': FieldValue('IntValue', i+1), # SessionsWon <= TotalSessions
+
+        'SkillByTrooper': FieldValue('IntValue', 9),
+        'SkillBySquadLeader': FieldValue('IntValue', 13),
+
+        'GiftedLeaderAward': FieldValue('IntValue', 2),
+        'GiftedSquadLeaderAward': FieldValue('IntValue', 2),
+
+        'TotalSkill': FieldValue('IntValue', 100), # Not used?
+        
+        'Rank': FieldValue('IntValue', 2), # Enum; 1=Trooper 2=Sergent..
+
+        'HandGunMaster': FieldValue('IntValue', 21),
+        'AssaultRifleMaster': FieldValue('IntValue', 22),
+        'MachineGunMaster': FieldValue('IntValue', 23),
+        'GrenadeLauncherMaster': FieldValue('IntValue', 24),
+        'SniperRifleMaster': FieldValue('IntValue', 25),
+        'ShoulderMissileMaster': FieldValue('IntValue', 26),
+        'SpiderChargeMaster': FieldValue('IntValue', 27),
+        'HandGrenadeMaster': FieldValue('IntValue', 28),
+        'SledgeHammerMaster': FieldValue('IntValue', 29),
+        'Hand2HandMaster': FieldValue('IntValue', 30),
+        'AbePlatformMaster': FieldValue('IntValue', 31),
+        
+        'MasterHackerAward': FieldValue('IntValue', 32),
+        'MasterSniperAward': FieldValue('IntValue', 33),
+
+        'Qualifications': FieldValue('AsciiStringValue', ""),
+    }
+
 storage_tables = {
     # TODO - Some awards not work, type? values? etc..
     # TODO - Create loop for 10 users, and see who calls Update to skills!
+        # Tested with 2 clients+official server... and no update call to skill, 
+        # only to PersonalInfo.LastGameDate...
+        # and reverse engineering does not show changes in update functions.. so I have no idea
+        # if the client or the server (more likely) will update... kinda clueless here?
 
     'PersonalInfo': [
-        {
-            'ownerid': FieldValue('IntValue', 100000001),
-            'recordid': FieldValue('IntValue', 0),
-
-            'NickName': FieldValue('AsciiStringValue', 'mynick'),
-            'EmailAddress': FieldValue('AsciiStringValue', 'todo@todo.com'),
-            
-            'AccountCreationDate': FieldValue('DateAndTimeValue', (2018, 1, 1, 0, 0, 0, 0, 0, 0)),
-            'LastGameDate': FieldValue('DateAndTimeValue', (2018, 1, 1, 0, 0, 0, 0, 0, 0)),
-            
-
-            'ViewMyProfile': FieldValue('IntValue', 0),
-            'ViewMyEmail': FieldValue('IntValue', 0),
-            
-            # Why not int? from ReverseEng?
-            'CampaignsCompleted': FieldValue('ByteValue', 0),
-        }
+        PersonalInfo_Item(1),
+        PersonalInfo_Item(2),
+        PersonalInfo_Item(3),
+        PersonalInfo_Item(4),
+        PersonalInfo_Item(5),
     ],
 
     'PlayerStats_v1': [
-        {
-            'ownerid': FieldValue('IntValue', 100000001),
-            'recordid': FieldValue('IntValue', 0),
-            'row': FieldValue('IntValue', 0),
-
-            'PlayerUnickName': FieldValue('AsciiStringValue', 'mynick'),
-            'PlayerClanNameTag': FieldValue('AsciiStringValue', '[SOMECLAN] '),
-
-            'HeadShotKills': FieldValue('IntValue', 1),
-            'BodyKills': FieldValue('IntValue', 2),
-            'FriendlyFireKills': FieldValue('IntValue', 5),
-            'SessionsWonAsPLeader': FieldValue('IntValue', 6),
-            'SessionsWonAsSLeader': FieldValue('IntValue', 7),
-            'SuccessfulHacks': FieldValue('IntValue', 8),
-            'TotalTimePlayed': FieldValue('IntValue', 61),
-            'SkillByHacker': FieldValue('IntValue', 10),
-            'SkillBySniper': FieldValue('IntValue', 11),
-            'SkillByABE': FieldValue('IntValue', 14),
-            'HighestLevelHacked': FieldValue('IntValue', 3),
-            'MostKillsInSession': FieldValue('IntValue', 15),
-            'BestSessionScore': FieldValue('IntValue', 17),
-            'MostValuablePlayer': FieldValue('IntValue', 19),
-            'SkillByPlatoonLeader': FieldValue('IntValue', 12),
-
-            'SessionsWon': FieldValue('IntValue', 3),
-            'TotalSessions': FieldValue('IntValue', 4), # SessionsWon <= TotalSessions
-
-            'SkillByTrooper': FieldValue('IntValue', 9),
-            'SkillBySquadLeader': FieldValue('IntValue', 13),
-
-            'GiftedLeaderAward': FieldValue('IntValue', 2),
-            'GiftedSquadLeaderAward': FieldValue('IntValue', 2),
-
-            'TotalSkill': FieldValue('IntValue', 100), # Not used?
-            
-            'Rank': FieldValue('IntValue', 2), # Enum; 1=Trooper 2=Sergent..
-
-            'HandGunMaster': FieldValue('IntValue', 21),
-            'AssaultRifleMaster': FieldValue('IntValue', 22),
-            'MachineGunMaster': FieldValue('IntValue', 23),
-            'GrenadeLauncherMaster': FieldValue('IntValue', 24),
-            'SniperRifleMaster': FieldValue('IntValue', 25),
-            'ShoulderMissileMaster': FieldValue('IntValue', 26),
-            'SpiderChargeMaster': FieldValue('IntValue', 27),
-            'HandGrenadeMaster': FieldValue('IntValue', 28),
-            'SledgeHammerMaster': FieldValue('IntValue', 29),
-            'Hand2HandMaster': FieldValue('IntValue', 30),
-            'AbePlatformMaster': FieldValue('IntValue', 31),
-            
-            'MasterHackerAward': FieldValue('IntValue', 32),
-            'MasterSniperAward': FieldValue('IntValue', 33),
-
-            'Qualifications': FieldValue('AsciiStringValue', ""),
-        }
+       PlayerStats_v1_Item(1),
+       PlayerStats_v1_Item(2),
+       PlayerStats_v1_Item(3),
+       PlayerStats_v1_Item(4),
+       PlayerStats_v1_Item(5),
     ]
 }
 

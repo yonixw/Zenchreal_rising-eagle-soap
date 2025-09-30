@@ -27,6 +27,16 @@ cd ..
 C:\Python27\python.exe server.py
 ```
 
+# Rapid updates:
+```
+// ----
+cd ZSI-master
+C:\Python27\python.exe server.py
+// ----
+C:\Python27\python.exe server.py
+// ----
+```
+
 
 # Create windows exe
 Since pyinstaller.exe is installed in 'C:\Python27\Scripts', add to path (to make sure)
